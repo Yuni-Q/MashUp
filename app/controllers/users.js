@@ -1,5 +1,4 @@
 const express = require('express');
-const passport = require('passport');
 const crypto = require('../helpers/cryptoHelper');
 const {
   Users,
@@ -15,7 +14,7 @@ const {
 
 const router = express.Router();
 
-router.post('/signUp', isNotLoggedIn, async (req, res) => {
+router.post('/', isNotLoggedIn, async (req, res) => {
   const {
     userName,
     password,
@@ -40,53 +39,6 @@ router.post('/signUp', isNotLoggedIn, async (req, res) => {
   } catch (error) {
     res.json(resultFormat(400, error.message, null));
   }
-});
-
-router.delete('/signUp', isLoggedIn, async (req, res) => {
-  const {
-    id,
-  } = req.user;
-  try {
-    await Users.update({
-      isDelete: true,
-    }, {
-      where: {
-        id,
-      },
-    });
-    await req.session.destroy();
-  } catch (error) {
-    res.json(resultFormat(400, error.message, null));
-  }
-  res.json(resultFormat(200, null, true));
-});
-
-
-router.post('/', isNotLoggedIn, (req, res, next) => {
-  passport.authenticate('local', (authError, user, info) => {
-    if (authError) next(authError);
-    if (!user) {
-      res.json(resultFormat(400, info.message, null));
-      return;
-    }
-    req.login(user, (loginError) => {
-      if (loginError) {
-        return next(loginError);
-      }
-      return res.json(resultFormat(200, null, true));
-    });
-  })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
-});
-
-router.delete('/', isLoggedIn, async (req, res) => {
-  try {
-    await req.logout();
-    await req.session.destroy();
-  } catch (error) {
-    res.json(resultFormat(400, error.message, null));
-    return;
-  }
-  res.json(resultFormat(200, null, true));
 });
 
 router.put('/', isLoggedIn, async (req, res) => {
@@ -114,6 +66,25 @@ router.put('/', isLoggedIn, async (req, res) => {
     } else {
       res.json(resultFormat(400, '유저가 존재하지 않습니다.', null));
     }
+  } catch (error) {
+    res.json(resultFormat(400, error.message, null));
+  }
+  res.json(resultFormat(200, null, true));
+});
+
+router.delete('/', isLoggedIn, async (req, res) => {
+  const {
+    id,
+  } = req.user;
+  try {
+    await Users.update({
+      isDelete: true,
+    }, {
+      where: {
+        id,
+      },
+    });
+    await req.session.destroy();
   } catch (error) {
     res.json(resultFormat(400, error.message, null));
   }
