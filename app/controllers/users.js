@@ -7,7 +7,7 @@ const {
 
 const {
   resultFormat,
-} = require('../services/form');
+} = require('../helpers/formHelper');
 const {
   isLoggedIn,
   isNotLoggedIn,
