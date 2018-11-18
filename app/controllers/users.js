@@ -34,10 +34,10 @@ router.post('/', isNotLoggedIn, async (req, res) => {
       userName,
       password: pwd,
     });
-    res.json(resultFormat(200, null, true));
+    res.json(resultFormat(true, null));
     return;
   } catch (error) {
-    res.json(resultFormat(400, error.message, null));
+    res.json(resultFormat(false, error.message));
   }
 });
 
@@ -64,12 +64,12 @@ router.put('/', isLoggedIn, async (req, res) => {
         },
       });
     } else {
-      res.json(resultFormat(400, '유저가 존재하지 않습니다.', null));
+      res.json(resultFormat(false, '유저가 존재하지 않습니다.'));
     }
   } catch (error) {
-    res.json(resultFormat(400, error.message, null));
+    res.json(resultFormat(false, error.message));
   }
-  res.json(resultFormat(200, null, true));
+  res.json(resultFormat(true, null));
 });
 
 router.delete('/', isLoggedIn, async (req, res) => {
@@ -86,9 +86,9 @@ router.delete('/', isLoggedIn, async (req, res) => {
     });
     await req.session.destroy();
   } catch (error) {
-    res.json(resultFormat(400, error.message, null));
+    res.json(resultFormat(false, error.message));
   }
-  res.json(resultFormat(200, null, true));
+  res.json(resultFormat(true, null));
 });
 
 module.exports = router;

@@ -1,8 +1,8 @@
 module.exports = {
-  resultFormat: (status, message, result) => {
+  resultFormat: (ok, message, result = null) => {
     console.log(message);
     return {
-      status,
+      ok,
       error: message,
       result,
     };
