@@ -1,5 +1,5 @@
 module.exports = {
-  resultFormat: (ok, message, result = null) => {
+  resultFormat: (ok, message, result) => {
     console.log(message);
     return {
       ok,

@@ -11,7 +11,7 @@ module.exports = (passport) => {
   // 매 요청 시 실행
   passport.deserializeUser(async (id, done) => {
     const user = await Users.findOne({ where: { id } });
-    done(null, user);
+    done(null, user.dataValues);
   });
 
   local(passport);
