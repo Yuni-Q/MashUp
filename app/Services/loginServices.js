@@ -9,7 +9,7 @@ module.exports = {
     passport.authenticate('local', (authError, user, info) => {
       if (authError) next(authError);
       if (!user) {
-        res.json(resultFormat(false, info.message));
+        res.json(resultFormat(false, 'user가 없습니다.', info));
       }
       req.login(user, (loginError) => {
         if (loginError) {
@@ -25,7 +25,7 @@ module.exports = {
       await req.logout();
       await req.session.destroy();
     } catch (error) {
-      res.json(resultFormat(false, error.message));
+      res.json(resultFormat(false, '에러가 발생했습니다.', error));
     }
     res.json(resultFormat(true, null));
   },

@@ -15,7 +15,9 @@ module.exports = async (passport) => {
         if (exUser.dataValues.isDelete === true) {
           done(null, false, { message: '탈퇴한 회원입니다.' });
         }
+        console.log('password', password);
         const pwd = await crypto.makePssword(password);
+        console.log('pwd', pwd);
         const result = await (pwd === (exUser.password));
         if (result) {
           done(null, exUser);
