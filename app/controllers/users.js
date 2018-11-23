@@ -29,6 +29,7 @@ router.put('/', isLoggedIn, async (req, res) => {
     await usersServices.updateUser(req.user, req.body);
   } catch (error) {
     res.json(resultFormat(false, error.message));
+    return;
   }
   res.json(resultFormat(true, null));
 });
@@ -38,6 +39,7 @@ router.delete('/', isLoggedIn, async (req, res) => {
     await usersServices.deleteUser(req.user);
   } catch (error) {
     res.json(resultFormat(false, error.message));
+    return;
   }
   res.json(resultFormat(true, null));
 });
